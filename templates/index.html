@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dengue Healthcare Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e74c3c;
+            --secondary-color: #3498db;
+            --accent-color: #f1c40f;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(52, 152, 219, 0.1)), 
+                        url("{{ url_for('static', filename='image/4.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            color: var(--dark-color);
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-right: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--dark-color);
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            animation: slideUp 1s ease-in-out;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            min-width: 200px;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+            background: white;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn i {
+            margin-right: 0.8rem;
+            font-size: 1.3rem;
+        }
+        
+        .btn-secondary {
+            background: var(--secondary-color);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-accent {
+            background: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+            color: var(--dark-color);
+        }
+        
+        .btn-accent:hover {
+            box-shadow: 0 8px 20px rgba(241, 196, 15, 0.4);
+            color: var(--dark-color);
+            border-color: var(--accent-color);
+        }
+        
+        .mosquito {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: url("{{ url_for('static', filename='image/21.jpg') }}") no-repeat center center;
+            background-size: contain;
+            opacity: 0.7;
+            animation: float 6s infinite ease-in-out;
+            z-index: -1;
+        }
+        
+        .mosquito:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .mosquito:nth-child(2) {
+            top: 60%;
+            left: 80%;
+            animation-delay: 1s;
+        }
+        
+        .mosquito:nth-child(3) {
+            top: 30%;
+            left: 70%;
+            animation-delay: 2s;
+        }
+        
+        .mosquito:nth-child(4) {
+            top: 80%;
+            left: 20%;
+            animation-delay: 3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 4rem;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            width: 280px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+        
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: auto;
+            padding: 2rem 0;
+            color: var(--dark-color);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.5rem;
+                min-width: 160px;
+                font-size: 1rem;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="mosquito"></div>
+    <div class="mosquito"></div>
+    <div class="mosquito"></div>
+    <div class="mosquito"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-bug"></i>
+                </div>
+                <h1>Dengue<span style="color: var(--dark-color);">Alert</span></h1>
+            </div>
+            <p class="tagline">Advanced prediction and prevention system for dengue outbreaks</p>
+        </header>
+        
+        <div class="btn-container">
+            <a href="{{ url_for('login') }}" class="btn">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+            <a href="{{ url_for('register') }}" class="btn btn-secondary">
+                <i class="fas fa-user-plus"></i> Register
+            </a>
+            <a href="{{ url_for('contact') }}" class="btn btn-accent">
+                <i class="fas fa-envelope"></i> Contact
+            </a>
+            <a href="{{ url_for('about') }}" class="btn btn-secondary">
+                <i class="fas fa-info-circle"></i> About
+            </a>
+            <a href="{{ url_for('predict') }}" class="btn">
+                <i class="fas fa-chart-line"></i> Predict
+            </a>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3 class="feature-title">Advanced Analytics</h3>
+                <p class="feature-desc">Our AI-powered system predicts dengue outbreaks with 90% accuracy using historical data.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <h3 class="feature-title">Early Warnings</h3>
+                <p class="feature-desc">Receive alerts before outbreaks occur, giving you time to prepare and prevent.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Prevention Tips</h3>
+                <p class="feature-desc">Get personalized recommendations to protect your community from dengue.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 DengueAlert System. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

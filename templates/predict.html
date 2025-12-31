@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dengue Prediction Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-red: #e63946;
+            --secondary-blue: #457b9d;
+            --accent-yellow: #ffd166;
+            --dark-blue: #1d3557;
+            --light-bg: #f1faee;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-blue);
+        }
+        
+        .container {
+            max-width: 1200px;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-red), var(--secondary-blue));
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .header h2 {
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+        
+        .plot-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary-red);
+            transition: transform 0.3s ease;
+        }
+        
+        .plot-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .plot-container h4 {
+            color: var(--dark-blue);
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .plot-container h4 i {
+            margin-right: 10px;
+            color: var(--primary-red);
+        }
+        
+        .metrics-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            border-left: 5px solid var(--secondary-blue);
+        }
+        
+        .metrics-card h4 {
+            color: var(--dark-blue);
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .metrics-card h4 i {
+            margin-right: 10px;
+            color: var(--secondary-blue);
+        }
+        
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            border: none;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .list-group-item:last-child {
+            border-bottom: none;
+        }
+        
+        .list-group-item strong {
+            color: var(--dark-blue);
+        }
+        
+        .trend-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            border-left: 5px solid var(--accent-yellow);
+        }
+        
+        .trend-card h4 {
+            color: var(--dark-blue);
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .trend-card h4 i {
+            margin-right: 10px;
+            color: var(--accent-yellow);
+        }
+        
+        .trend-up {
+            color: var(--primary-red);
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background-color: rgba(230, 57, 70, 0.1);
+            border-radius: 8px;
+        }
+        
+        .trend-down {
+            color: #2a9d8f;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background-color: rgba(42, 157, 143, 0.1);
+            border-radius: 8px;
+        }
+        
+        .trend-icon {
+            font-size: 1.5rem;
+            margin-left: 10px;
+        }
+        
+        .prediction-card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--secondary-blue);
+        }
+        
+        .prediction-card .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 20px;
+            border-top-left-radius: 15px !important;
+            border-top-right-radius: 15px !important;
+        }
+        
+        .prediction-card .card-header h4 {
+            color: var(--dark-blue);
+            font-weight: 600;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .prediction-card .card-header h4 i {
+            margin-right: 10px;
+            color: var(--secondary-blue);
+        }
+        
+        .prediction-card .card-body {
+            padding: 25px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-red);
+            border-color: var(--primary-red);
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #c1121f;
+            border-color: #c1121f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3);
+        }
+        
+        .form-control {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 0.25rem rgba(69, 123, 157, 0.25);
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        .top-buttons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.custom-btn {
+  border-radius: 30px;
+  padding: 6px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.custom-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+        .table thead th {
+            background-color: var(--secondary-blue);
+            color: white;
+            border-bottom: none;
+            padding: 12px 15px;
+        }
+        
+        .table tbody tr:nth-child(even) {
+            background-color: rgba(241, 250, 238, 0.5);
+        }
+        
+        .table tbody tr:hover {
+            background-color: rgba(69, 123, 157, 0.1);
+        }
+        
+        .table tbody td {
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+        
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .alert-banner {
+            background: linear-gradient(135deg, var(--primary-red), #c1121f);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert-banner i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        
+        .alert-banner p {
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .plot-container, .metrics-card, .trend-card {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            .header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex align-items-center gap-2">
+    <a href="/back" class="btn btn-outline-light btn-sm">
+        <i class="bi bi-arrow-left-circle"></i> Back
+    </a>
+    <a href="/logout" class="btn btn-light btn-sm fw-bold">
+        <i class="bi bi-box-arrow-in-right"></i> Logout
+    </a>
+</div>
+
+    <div class="container mt-4">
+        <div class="header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2><i class="bi bi-clipboard2-pulse"></i> Dengue Cases Prediction</h2>
+                    <p>Advanced forecasting with AI-powered analytics</p>
+                </div>
+                {% if trend == 'increase' %}
+                <div class="alert-banner d-none d-md-flex">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <p>Alert: Dengue cases are predicted to increase in the coming weeks</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="plot-container">
+                    <h4><i class="bi bi-graph-up"></i> Forecast vs Actual Cases</h4>
+                    <img src="data:image/png;base64,{{ plot_url }}" class="img-fluid rounded" alt="Forecast Plot">
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="trend-card">
+                    <h4><i class="bi bi-activity"></i> Trend Prediction</h4>
+                    <p class="mb-3">Based on the forecast analysis, dengue cases will:</p>
+                    {% if trend == 'increase' %}
+                        <p class="trend-up">
+                            INCREASE <i class="bi bi-arrow-up-right trend-icon"></i>
+                        </p>
+                        <p class="mt-2 text-muted small">Consider implementing preventive measures in high-risk areas.</p>
+                    {% else %}
+                        <p class="trend-down">
+                            DECREASE OR INCREASE <i class="bi bi-arrow-down-right trend-icon"></i>
+                        </p>
+                        <p class="mt-2 text-muted small">Current control measures appear effective. Maintain vigilance.</p>
+                    {% endif %}
+                </div>
+                
+                <div class="metrics-card">
+                    <h4><i class="bi bi-speedometer2"></i> Model Performance</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Mean Absolute Error (MAE):</strong>
+                            <span>{{ mae }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Root Mean Squared Error (RMSE):</strong>
+                            <span>{{ rmse }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Symmetric Mean Absolute Percentage Error (SMAPE):</strong>
+                            <span>{{ smape }}%</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Mean Absolute Scaled Error (MASE):</strong>
+                            <span>{{ mase }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="prediction-card">
+            <div class="card-header">
+                <h4><i class="bi bi-calculator"></i> Make New Prediction</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/predict">
+                    <div class="row">
+                        <div class="col-md-8 mb-3 mb-md-0">
+                            <label for="weeks" class="form-label">Number of weeks to forecast:</label>
+                            <input type="number" class="form-control" id="weeks" name="weeks" min="1" max="52" required>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-lightning-charge"></i> Predict
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        {% if forecast %}
+        <div class="prediction-card">
+            <div class="card-header">
+                <h4><i class="bi bi-table"></i> Forecast Values</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Week</th>
+                                <th>Predicted Cases</th>
+                                <th>Risk Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in range(forecast|length) %}
+                            <tr>
+                                <td>Week {{ i+1 }}</td>
+                                <td>{{ "%.2f"|format(forecast[i]) }}</td>
+                                <td>
+                                    {% if forecast[i] > 100 %}
+                                        <span class="badge bg-danger">High</span>
+                                    {% elif forecast[i] > 50 %}
+                                        <span class="badge bg-warning text-dark">Medium</span>
+                                    {% else %}
+                                        <span class="badge bg-success">Low</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
