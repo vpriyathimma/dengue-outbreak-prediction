@@ -6,7 +6,7 @@
 
 This project focuses on short-term dengue outbreak forecasting using a hybrid
 time-series modeling approach. The objective is to predict dengue case trends
-2–4 weeks ahead using historical weekly incidence data and to provide an
+2-4 weeks ahead using historical weekly incidence data and to provide an
 interactive web interface for visualization and evaluation.
 
 The work emphasizes understanding, implementing, and validating an end-to-end
