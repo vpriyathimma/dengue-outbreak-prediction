@@ -29,7 +29,7 @@ machine learning pipeline for epidemiological forecasting.
   patterns.
 
 ### Forecasting Setup
-- Designed for short-term forecasting with a prediction horizon of 2–4 weeks.
+- Designed for short-term forecasting with a prediction horizon of 2-4 weeks.
 - Model outputs are reconstructed to obtain final dengue case predictions.
 
 ---
