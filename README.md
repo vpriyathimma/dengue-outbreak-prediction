@@ -35,11 +35,8 @@ During testing, the model was surprisingly good at catching the *direction* of a
 3.  Run the dashboard: `python app.py`
 4.  Open your browser to `localhost:5000` and pick a region to see the forecast.
 
----
 
-### 💡 Lessons Learned & What's Next
-*   **Data is everything:** Right now, the model only looks at past cases. In the real world, dengue is driven by rain and heat. My next step is to pull in climate data to see if the accuracy jumps.
-*   **Noise is the enemy:** The Wavelet transform was the biggest "aha!" moment for me—it made a huge difference in how stable the predictions were.
+
 
 ---
 **Vishnupriya T**  
