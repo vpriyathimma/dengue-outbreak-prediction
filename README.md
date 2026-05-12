@@ -1,46 +1,189 @@
-#  Dengue Outbreak Prediction System
+# Dengue Outbreak Prediction System
 
-Predicting dengue outbreaks is notoriously hard because the data is incredibly "noisy"—it jumps around due to weather, reporting delays, and seasonal shifts. I built this system to see if a hybrid deep learning approach could cut through that noise and predict cases 2-4 weeks in advance.
+Dengue Outbreak Prediction System is a hybrid deep learning and signal-processing application designed to forecast dengue outbreak trends 2–4 weeks in advance by reducing noise in epidemiological time-series data.
 
-The goal wasn't just to make a model, but to create a full pipeline where you can actually see the predictions versus the real data.
+Built to address the unpredictability of dengue case fluctuations caused by weather variability, delayed reporting, and seasonal changes, this project combines signal decomposition with deep learning to improve forecasting accuracy and outbreak preparedness.
 
-###  How it Works 
-Most models struggle with raw dengue data because it's too erratic. Here’s how I tackled it:
-
-1.  **Cleaning the Signal (MODWT):** I used Wavelet Transforms to "decompose" the data. Think of it like taking a messy audio recording and separating the background noise from the actual melody. This helps the model focus on the real trend.
-2.  **The Memory (LSTM):** Once the data was cleaned, I fed it into an LSTM (Long Short-Term Memory) network. Since dengue follows seasonal patterns, the LSTM is perfect for "remembering" what happened in previous months to predict the next few weeks.
-3.  **The Dashboard:** I wrapped everything in a Flask app so you can visualize the predictions. It’s one thing to see numbers, but another to see the curve of an outbreak actually being forecasted.
+By integrating MODWT-based signal cleaning, LSTM temporal forecasting, and a Flask-powered visualization dashboard, the system provides not only predictive intelligence but also interpretable outbreak trend analysis for real-world public health applications.
 
 ---
 
-###  Performance
-During testing, the model was surprisingly good at catching the *direction* of an outbreak.
-*   **Accuracy:** It caught the rising/falling trends about **90% of the time**.
-*   **Error Rate:** On average, it was off by about **6.8 cases** (MAE). 
-*   **The Win:** It’s particularly strong at identifying when a quiet period is about to turn into an outbreak phase.
+## Features
+
+- Predicts dengue outbreak trends 2–4 weeks in advance  
+- Hybrid MODWT + LSTM forecasting pipeline  
+- Wavelet decomposition for noise reduction  
+- Time-series forecasting using Long Short-Term Memory (LSTM)  
+- Interactive Flask dashboard for region-based outbreak visualization  
+- Forecast vs real-case comparison interface  
+- Early outbreak trend identification  
+- Data-driven epidemiological decision support  
 
 ---
 
-###  Tech Stack
-*   **Deep Learning:** TensorFlow / Keras (LSTM)
-*   **Signal Processing:** PyWavelets (MODWT)
-*   **Data:** Pandas, NumPy
-*   **Web:** Flask & Matplotlib
+## Tech Stack
+
+### Deep Learning
+- TensorFlow  
+- Keras (LSTM)  
+
+### Signal Processing
+- PyWavelets (MODWT - Maximal Overlap Discrete Wavelet Transform)  
+
+### Data Processing
+- Pandas  
+- NumPy  
+
+### Web Framework
+- Flask  
+
+### Visualization
+- Matplotlib  
+
+### Development Environment
+- Python  
 
 ---
 
-###  Getting Started
-1.  Clone this repo: `git clone https://github.com/vpriyathimma/dengue-outbreak-prediction.git`
-2.  Install dependencies: `pip install -r requirements.txt`
-3.  Run the dashboard: `python app.py`
-4.  Open your browser to `localhost:5000` and pick a region to see the forecast.
+## How It Works
 
-
-
+1. Raw dengue data is collected and preprocessed  
+2. MODWT decomposes noisy time-series data into cleaner trend components  
+3. Cleaned signals are passed into an LSTM model  
+4. LSTM captures seasonal memory and temporal dependencies  
+5. Flask dashboard visualizes predictions against real outbreak curves  
+6. Users can select regions and analyze forecast patterns interactively  
 
 ---
-**Vishnupriya T**  
-[vpriyathimma@gmail.com](mailto:vpriyathimma@gmail.com) | [@vpriyathimma](https://github.com/vpriyathimma)
+
+## Performance Metrics
+
+### Model Performance:
+- Trend Direction Accuracy: ~90%  
+- Mean Absolute Error (MAE): ~6.8 cases  
+- Strong early outbreak phase detection  
+- Effective for identifying transition from low-risk to outbreak periods  
+
+---
+
+## Installation & Setup
+
+### Clone the Repository
+```bash
+git clone https://github.com/vpriyathimma/dengue-outbreak-prediction.git
+cd dengue-outbreak-prediction
+```
+
+### Development Requirements
+- Python 3.9+  
+- pip  
+- Virtual environment (recommended)  
+
+### Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Run the Dashboard
+```bash
+python app.py
+```
+
+### Access the Application
+```bash
+http://localhost:5000
+```
+
+---
+
+## Project Structure
+
+```bash
+dengue-outbreak-prediction/
+│── app.py
+│── requirements.txt
+│── models/
+│── data/
+│── preprocessing/
+│── templates/
+│── static/
+└── README.md
+```
+
+---
+
+## Current Scope
+
+### Core Focus:
+- Dengue outbreak forecasting  
+- Time-series trend prediction  
+- MODWT noise reduction  
+- LSTM seasonal forecasting  
+- Interactive outbreak visualization  
+
+### Planned Enhancements:
+- Weather API integration  
+- Multi-disease forecasting (malaria, chikungunya)  
+- Geospatial outbreak heatmaps  
+- Cloud deployment  
+- Automated alert systems  
+
+---
+
+## Security & Privacy
+
+- Local deployment support  
+- No sensitive personal health data exposure  
+- Region-level forecasting design  
+- Safe analytics-focused architecture  
+- Expandable for public health system deployment  
+
+---
+
+## Future Improvements
+
+- Real-time health surveillance integration  
+- GIS mapping dashboards  
+- Transformer-based forecasting models  
+- Multi-region comparative analytics  
+- SMS/email outbreak alerts  
+- Mobile dashboard support  
+
+---
+
+## Why This Project Matters
+
+This project demonstrates the practical application of AI, epidemiology, and signal processing to solve real-world healthcare forecasting challenges.
+
+It highlights expertise in:
+- Time-Series Forecasting  
+- Deep Learning (LSTM)  
+- Signal Processing (Wavelets)  
+- Public Health Analytics  
+- Flask Development  
+- Data Visualization  
+
+---
+
+## Key Innovation
+
+Traditional outbreak prediction systems often fail because of noisy, unstable epidemiological data. This system’s integration of MODWT for signal decomposition significantly improves pattern clarity before forecasting, making predictions more reliable and interpretable.
+
+---
+
+## Author
+
+**Vishnupriya T**
+
+- GitHub: https://github.com/vpriyathimma  
+- Email: vpriyathimma@gmail.com  
+- LinkedIn: https://www.linkedin.com/in/vishnupriya-t-7a0b8925b/  
+
+---
+
+## License
+
+This project is intended for educational, portfolio, healthcare analytics, and epidemiological forecasting purposes. You may modify and expand it for research or public health innovation.
 
 
 
