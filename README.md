@@ -1,94 +1,50 @@
-# Dengue Outbreak Prediction System
+#  Dengue Outbreak Prediction System
+
+Predicting dengue outbreaks is notoriously hard because the data is incredibly "noisy"—it jumps around due to weather, reporting delays, and seasonal shifts. I built this system to see if a hybrid deep learning approach could cut through that noise and predict cases 2-4 weeks in advance.
+
+The goal wasn't just to make a model, but to create a full pipeline where you can actually see the predictions versus the real data.
+
+###  How it Works 
+Most models struggle with raw dengue data because it's too erratic. Here’s how I tackled it:
+
+1.  **Cleaning the Signal (MODWT):** I used Wavelet Transforms to "decompose" the data. Think of it like taking a messy audio recording and separating the background noise from the actual melody. This helps the model focus on the real trend.
+2.  **The Memory (LSTM):** Once the data was cleaned, I fed it into an LSTM (Long Short-Term Memory) network. Since dengue follows seasonal patterns, the LSTM is perfect for "remembering" what happened in previous months to predict the next few weeks.
+3.  **The Dashboard:** I wrapped everything in a Flask app so you can visualize the predictions. It’s one thing to see numbers, but another to see the curve of an outbreak actually being forecasted.
 
 ---
 
-## Project Overview
-
-This project focuses on short-term dengue outbreak forecasting using a hybrid
-time-series modeling approach. The objective is to predict dengue case trends
-2-4 weeks ahead using historical weekly incidence data and to provide an
-interactive web interface for visualization and evaluation.
-
-The work emphasizes understanding, implementing, and validating an end-to-end
-machine learning pipeline for epidemiological forecasting.
+###  Performance
+During testing, the model was surprisingly good at catching the *direction* of an outbreak.
+*   **Accuracy:** It caught the rising/falling trends about **90% of the time**.
+*   **Error Rate:** On average, it was off by about **6.8 cases** (MAE). 
+*   **The Win:** It’s particularly strong at identifying when a quiet period is about to turn into an outbreak phase.
 
 ---
 
-## Methodology
-
-### Data Preparation
-- Utilized historical weekly dengue case data from multiple regions.
-- Performed data cleaning, normalization, and time-series structuring.
-- Applied Maximal Overlap Discrete Wavelet Transform (MODWT) to decompose the
-  original signal into trend and detail components for noise reduction.
-
-### Model Architecture
-- Implemented a hybrid MODWT + LSTM framework.
-- Wavelet-decomposed components are used as inputs to an LSTM neural network.
-- The LSTM model captures temporal and seasonal dependencies in dengue incidence
-  patterns.
-
-### Forecasting Setup
-- Designed for short-term forecasting with a prediction horizon of 2-4 weeks.
-- Model outputs are reconstructed to obtain final dengue case predictions.
+###  Tech Stack
+*   **Deep Learning:** TensorFlow / Keras (LSTM)
+*   **Signal Processing:** PyWavelets (MODWT)
+*   **Data:** Pandas, NumPy
+*   **Web:** Flask & Matplotlib
 
 ---
 
-## Model Evaluation
-
-Model performance was evaluated using standard regression metrics:
-
-- Mean Absolute Error (MAE): **6.8 cases**
-- Root Mean Squared Error (RMSE): **9.4 cases**
-
-The model demonstrated strong short-term trend-following capability, achieving
-over **90% trend accuracy** in identifying rising and declining outbreak phases
-during internal evaluation.
+###  Getting Started
+1.  Clone this repo: `git clone https://github.com/vpriyathimma/dengue-outbreak-prediction.git`
+2.  Install dependencies: `pip install -r requirements.txt`
+3.  Run the dashboard: `python app.py`
+4.  Open your browser to `localhost:5000` and pick a region to see the forecast.
 
 ---
 
-## Web Application
-
-A Flask-based web application was developed to support:
-
-- Visualization of predicted vs. actual dengue case trends
-- Interactive evaluation of model performance
-- Easy experimentation with different regional datasets
-
-The application provides an end-to-end demonstration of the forecasting
-pipeline, from data input to result interpretation.
+### 💡 Lessons Learned & What's Next
+*   **Data is everything:** Right now, the model only looks at past cases. In the real world, dengue is driven by rain and heat. My next step is to pull in climate data to see if the accuracy jumps.
+*   **Noise is the enemy:** The Wavelet transform was the biggest "aha!" moment for me—it made a huge difference in how stable the predictions were.
 
 ---
+**Vishnupriya T**  
+[vpriyathimma@gmail.com](mailto:vpriyathimma@gmail.com) | [@vpriyathimma](https://github.com/vpriyathimma)
 
-## Project Scope and Learning Outcomes
-
-This project was implemented as a practical machine learning exercise to gain
-hands-on experience with:
-
-- Time-series preprocessing and decomposition techniques
-- Deep learning models for sequential data
-- Model evaluation and error analysis
-- Deployment of ML models using Flask for real-world interaction
-
----
-
-## Limitations and Future Work
-
-- The current model relies solely on historical case counts.
-- Incorporating climatic, environmental, and mobility features could improve
-  predictive performance.
-- Future extensions may include attention-based models, probabilistic
-  forecasting, and cross-region generalization analysis.
-
----
-
-## Technologies Used
-
-- Python
-- TensorFlow / Keras
-- NumPy, Pandas, PyWavelets
-- Flask
-- Matplotlib
 
 
 
